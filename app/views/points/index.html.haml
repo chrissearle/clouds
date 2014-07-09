@@ -6,9 +6,9 @@
   .row
     .col-md-3.scrollable
       - @points.each do |point|
-        .point
+        .point{ :id => "point_#{point.id}" }
           %h4
             = point.name
             %span.coords= point.location
-          .streetview{ :id => "point_#{point.id}", :data => { :streetview => streetview_point_url(point, :format => :json) }}
+          .streetview{ :data => { :streetview => streetview_point_url(point, :format => :json) }}
     #map.col-md-9{ :data => { :points => points_url(:format => :json) }}

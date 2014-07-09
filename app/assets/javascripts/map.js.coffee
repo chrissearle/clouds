@@ -24,14 +24,16 @@ class Map
       for point in data
         latlng = new google.maps.LatLng point['latitude'], point['longitude']
         pointList.push latlng
-        @.addPoint(latlng, point['name'], point['path'], infoWindow)
+        @.addPoint(latlng, point['name'], point['id'], point['path'], infoWindow)
       @.zoomToFit pointList
 
-  addPoint: (latlng, name, link, infoWindow) ->
+  addPoint: (latlng, name, point, link, infoWindow) ->
     marker = new google.maps.Marker
       position: latlng
       map: @map
       title: name
+
+    $("#point_#{point}").data('marker', marker)
 
     if link != undefined
       google.maps.event.addListener marker, 'click', =>
@@ -47,7 +49,6 @@ class Map
         '</div>'
 
       map.panTo(marker.getPosition());
-      map.
       infoWindow.setContent(content)
       infoWindow.open(map,marker)
 
