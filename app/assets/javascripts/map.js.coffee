@@ -47,7 +47,6 @@ class @Map
 
       content =
         '<div class="pointinfo">' +
-        '<h1>' + data.name + '</h1>' +
         "<div id='#{id}' class='cloudchart'></div>" +
         '</div>'
 
