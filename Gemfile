@@ -27,7 +27,6 @@ gem 'unicorn'
 gem 'haml'
 gem 'rails_12factor', group: :production
 gem 'bootstrap-sass'
-gem 'rails_layout'
 gem 'dalli'
 gem 'memcachier'
 gem 'bitly'
@@ -35,12 +34,14 @@ gem 'omniauth'
 gem 'omniauth-flickr'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
+gem 'omniauth-github'
 gem 'newrelic_rpm'
 gem 'nokogiri'
 
 gem 'foreman', :require => false
 
 group :development do
+  gem 'rails_layout'
   gem 'rack-mini-profiler'
   gem 'quiet_assets'
   gem 'better_errors'

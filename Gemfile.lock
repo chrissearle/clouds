@@ -116,6 +116,9 @@ GEM
       omniauth-oauth2 (~> 1.1)
     omniauth-flickr (0.0.15)
       omniauth-oauth (~> 1.0)
+    omniauth-github (1.1.2)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
     omniauth-oauth (1.0.1)
       oauth
       omniauth (~> 1.0)
@@ -238,6 +241,7 @@ DEPENDENCIES
   omniauth
   omniauth-facebook
   omniauth-flickr
+  omniauth-github
   omniauth-twitter
   pg
   quiet_assets
