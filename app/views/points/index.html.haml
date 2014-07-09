@@ -8,7 +8,13 @@
       - @points.each do |point|
         .point{ :id => "point_#{point.id}" }
           %h4
-            = point.name
+            - if point.privacy_flag
+              = link_with_icon('map-marker', point.name)
+            - else
+              = link_with_icon('lock', point.name)
+            - if current_user && current_user = point.user
+              %span.edit
+                TODO: Edit
             %span.coords= point.location
           .streetview{ :data => { :streetview => streetview_point_url(point, :format => :json) }}
     #map.col-md-9{ :data => { :points => points_url(:format => :json) }}

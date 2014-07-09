@@ -4,6 +4,14 @@ div.point {
   border-bottom: 1px solid silver;
   cursor: pointer;
 
+  h4 {
+    font-size: 1.0em;
+  }
+
+  span.edit {
+    font-size: 0.6em;
+  }
+
   span.coords {
     font-size: 0.6em;
     float: right;
