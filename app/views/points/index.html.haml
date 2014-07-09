@@ -1,6 +1,8 @@
 - content_for :head do
-  %script{ :type => "text/javascript",
+  %script{ :type => 'text/javascript',
            :src => js_map_url }
+  %script{ :type => 'text/javascript',
+           :src => javascript_url('StyledMarker') }
 
 .container-fluid
   .row
@@ -14,7 +16,7 @@
               = link_with_icon('lock', point.name)
             - if current_user && current_user = point.user
               %span.edit
-                TODO: Edit
+                = link_to 'Edit', point_path(point)
             %span.coords= point.location
           .streetview{ :data => { :streetview => streetview_point_url(point, :format => :json) }}
     #map.col-md-9{ :data => { :points => points_url(:format => :json) }}

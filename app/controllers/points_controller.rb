@@ -1,6 +1,6 @@
 class PointsController < ApplicationController
   before_filter :get_points, :except => [:show, :current, :create]
-  before_filter :get_point, :only => [:show, :streetview]
+  before_filter :get_point, :only => [:show, :streetview, :update, :destroy]
 
   def index
   end
@@ -12,10 +12,22 @@ class PointsController < ApplicationController
   end
 
   def create
-    point = Point.new(point_params)
-    point.user = current_user
+    if current_user
+      point = Point.new(point_params)
+      point.user = current_user
 
-    redirect_to current_url(point.latitude, point.longitude)
+      point.save
+    end
+
+    redirect_to root_url
+  end
+
+  def update
+    if current_user
+      @point.update(point_params)
+    end
+
+    redirect_to root_url
   end
 
   def show
@@ -42,6 +54,12 @@ class PointsController < ApplicationController
     http.finish
 
     render json: { :available => (size.to_i != 2914), :image => uri.to_s }
+  end
+
+  def destroy
+    @point.destroy
+
+    redirect_to root_url
   end
 
   private

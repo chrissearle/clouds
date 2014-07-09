@@ -1,0 +1,34 @@
+- content_for :head do
+  %script{ :type => 'text/javascript',
+           :src => js_map_url }
+  %script{ :type => 'text/javascript',
+           :src => javascript_url('StyledMarker') }
+
+.container-fluid
+  .row
+    .col-md-3.scrollable
+      .point{ :id => "point_#{@point.id}" }
+        %h4
+          - if @point.privacy_flag
+            = link_with_icon('map-marker', @point.name)
+          - else
+            = link_with_icon('lock', @point.name)
+          %span.coords= @point.location
+        .streetview{ :data => { :streetview => streetview_point_url(@point, :format => :json) }}
+        = form_for @point do |f|
+          .well
+            .form-group
+              = f.hidden_field :latitude
+              = f.hidden_field :longitude
+
+              = f.label :name, :class => 'control-label'
+              = f.text_field :name, :class => 'form-control'
+
+            .form-group
+              %p Move the marker on the map to change the location
+
+            .form-group
+              = f.submit 'Save', :class => 'btn btn-primary'
+              = link_to 'Delete', @point, method: :delete, :class => 'btn btn-danger'
+
+    #map.col-md-9{ :data => { :singlepointpath => point_url(@point, :format => :json) }}
