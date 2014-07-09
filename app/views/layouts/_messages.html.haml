@@ -1,0 +1,8 @@
+- unless flash.empty?
+  .container
+    .row
+      - flash.each do |name, msg|
+        - if msg.is_a? String
+          .alert.alert-dismissable{ :class => "alert-#{bootstrap_type(name.to_sym)}" }
+            %button.close{ :type => 'button', :'data-dismiss' => 'alert', :'aria-hidden' => 'true' } &times;
+            %div{ :id => "flash_#{name}" }= msg
