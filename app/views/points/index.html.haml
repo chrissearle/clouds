@@ -1,0 +1,13 @@
+.container-fluid
+  .row
+    .col-md-3.scrollable
+      - @points.each do |point|
+        .point
+          %h4
+            = point.name
+            %span.coords= location_for_point(point)
+          .streetview{ :id => "streetview_#{point.id}", :data => { :image => streetview_map_for_point(point, '300x100') }}
+    .col-md-9
+      .jumbotron
+        %h1
+          Re-write in progress - don't expect anything to work right now

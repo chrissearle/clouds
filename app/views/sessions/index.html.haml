@@ -1,0 +1,52 @@
+- providers = LOGIN_PROVIDERS.dup
+
+.container
+  .row
+    .col-md-6
+
+      - if current_user
+        - title 'My Profile'
+      - else
+        - title 'Log In'
+
+      - if current_user
+        %h2= 'User'
+
+        %address
+          %strong= current_user.name
+          %p= current_user.email
+
+        %p= link_to 'edit e-mail address', edit_user_path(current_user)
+
+        %h2= 'Logins'
+        - current_user.authentications.each do |auth|
+          - providers.reject! { |provider| provider.to_s == auth.provider }
+          %div{ :class => 'login'}
+            = image_tag("icons/#{auth.provider}_32.png",
+                              :alt => auth.provider.capitalize,
+                              :title => auth.provider.capitalize)
+            %div
+              = auth.provider.capitalize
+              %br/
+              = auth.uid
+              %br/
+              = auth.name
+              %br/
+              = auth.email
+
+        %p{ :style => "clear: both" }
+        - unless providers.empty?
+          %h2= 'Add a login'
+      - else
+        %h2= 'Login via one of the following'
+
+  .row
+    .col-md-6
+      - providers.each do |provider|
+        %div{ :class => 'provider'}
+          = link_to image_tag("icons/#{provider.to_s}_32.png",
+                                  :alt => provider.to_s.capitalize,
+                                  :title => provider.to_s.capitalize),
+                        "/auth/#{provider.to_s.downcase}"
+          = link_to provider.to_s.capitalize,
+                        "/auth/#{provider.to_s.downcase}"

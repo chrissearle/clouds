@@ -1,0 +1,15 @@
+- title 'Edit'
+
+
+.container
+  .row
+    .col-md-6
+      %h2= "Edit #{current_user.name}"
+
+      = form_for current_user do |f|
+        .form-group
+          = f.label :email, :class => 'control-label'
+          = f.email_field :email, :class => 'form-control'
+
+        .well
+          = f.submit 'Update', :class => 'btn btn-primary'
