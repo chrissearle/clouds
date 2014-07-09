@@ -38,6 +38,8 @@ gem 'omniauth-github'
 gem 'newrelic_rpm'
 gem 'nokogiri'
 
+gem 'autoprefixer-rails'
+
 gem 'foreman', :require => false
 
 group :development do

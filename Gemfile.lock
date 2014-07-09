@@ -28,6 +28,8 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    autoprefixer-rails (2.1.0.20140628)
+      execjs
     awesome_print (1.2.0)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
@@ -223,6 +225,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autoprefixer-rails
   better_errors
   binding_of_caller
   bitly
