@@ -4,9 +4,7 @@ readyCallback = ->
     point = $("##{id}")
     streetview = point.data('streetview')
 
-    $.ajax({
-      url: streetview
-    }).done (data) ->
+    $.ajax({ url: streetview }).done (data) ->
       if data.available
         point.append $('<img/>').attr('src', data.image)
   )

@@ -8,30 +8,49 @@ class Map
       zoom: 8
       maxZoom: 15
       center: @point
+      mapTypeControlOptions: {
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN],
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+      },
       mapTypeId: google.maps.MapTypeId.ROADMAP
 
     @map = new google.maps.Map element, @options
 
   populate: (points) ->
     $.get points, (data) =>
+      infoWindow = new google.maps.InfoWindow()
+
       pointList = []
       for point in data
         latlng = new google.maps.LatLng point['latitude'], point['longitude']
         pointList.push latlng
-        @.addPoint(latlng, point['name'])
+        @.addPoint(latlng, point['name'], point['path'], infoWindow)
       @.zoomToFit pointList
 
-  addPoint: (latlng, name, link) ->
+  addPoint: (latlng, name, link, infoWindow) ->
     marker = new google.maps.Marker
       position: latlng
       map: @map
       title: name
 
     if link != undefined
-      google.maps.event.addListener marker, 'click', ->
-        window.location = link
+      google.maps.event.addListener marker, 'click', =>
+        @.showInfoWindow(@map, marker, infoWindow, link)
 
     marker
+
+  showInfoWindow: (map, marker, infoWindow, path) ->
+    $.get path, (data) =>
+      content =
+        '<div class="pointinfo">' +
+        '<h1>' + data.name + '</h1>' +
+        '</div>'
+
+      map.panTo(marker.getPosition());
+      map.
+      infoWindow.setContent(content)
+      infoWindow.open(map,marker)
+
 
   zoomToFit: (latlngs) ->
     bounds = new google.maps.LatLngBounds()

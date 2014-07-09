@@ -2,10 +2,11 @@ class PointsController < ApplicationController
   before_filter :get_points, :except => [:show, :current, :create]
 
   def index
-    respond_to do |format|
-      format.html
-      format.json { render :json => @points }
-    end  end
+#    respond_to do |format|
+#      format.html
+#      format.json { render :json => @points }
+#    end
+  end
 
   def new
     @point = Point.new

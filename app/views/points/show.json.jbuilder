@@ -1,0 +1,1 @@
+json.name @point.name
