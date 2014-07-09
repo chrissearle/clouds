@@ -36,6 +36,7 @@ gem 'omniauth-flickr'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'newrelic_rpm'
+gem 'nokogiri'
 
 gem 'foreman', :require => false
 
