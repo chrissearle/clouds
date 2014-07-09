@@ -1,4 +1,4 @@
-class Map
+class @Map
   constructor: (element, lat, lng) ->
     lat = 0 unless lat != undefined
     lng = 0 unless lng != undefined
@@ -43,14 +43,21 @@ class Map
 
   showInfoWindow: (map, marker, infoWindow, path) ->
     $.get path, (data) =>
+      id = "cloudchart_#{data.id}"
+
       content =
         '<div class="pointinfo">' +
         '<h1>' + data.name + '</h1>' +
+        "<div id='#{id}' class='cloudchart'></div>" +
         '</div>'
 
-      map.panTo(marker.getPosition());
       infoWindow.setContent(content)
       infoWindow.open(map,marker)
+
+      google.maps.event.addListener infoWindow, 'domready', ->
+        chart = new Chart("##{id}", data)
+        chart.processPoint()
+
 
 
   zoomToFit: (latlngs) ->

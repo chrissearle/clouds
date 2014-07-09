@@ -4,11 +4,16 @@
   img {
     max-width: none;
   }
-}
 
-.pointinfo {
-  width: 500px;
-  h1 {
-    font-size: 1.4em;
+  .pointinfo {
+    h1 {
+      font-size: 1.4em;
+    }
+
+    .cloudchart {
+      width: 500px;
+      height: 350px;
+    }
   }
 }
+
