@@ -1,8 +1,7 @@
 - content_for :head do
   %script{ :type => 'text/javascript',
            :src => js_map_url }
-  %script{ :type => 'text/javascript',
-           :src => javascript_url('StyledMarker') }
+  = javascript_include_tag 'StyledMarker'
 
 .container-fluid
   .row
