@@ -1,3 +1,7 @@
+- content_for :head do
+  %script{ :type => "text/javascript",
+           :src => js_map_url }
+
 .container-fluid
   .row
     .col-md-3.scrollable
@@ -5,9 +9,6 @@
         .point
           %h4
             = point.name
-            %span.coords= location_for_point(point)
-          .streetview{ :id => "streetview_#{point.id}", :data => { :image => streetview_map_for_point(point, '300x100') }}
-    .col-md-9
-      .jumbotron
-        %h1
-          Re-write in progress - don't expect anything to work right now
+            %span.coords= point.location
+          .streetview{ :id => "point_#{point.id}", :data => { :streetview => streetview_point_url(point, :format => :json) }}
+    #map.col-md-9{ :data => { :points => points_url(:format => :json) }}

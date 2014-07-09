@@ -12,7 +12,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :points
+  resources :points do
+    member do
+      get 'streetview'
+    end
+  end
 
   get '/current/:lat/:lng' => 'points#current', :as => 'current', :lat => /\d+(\.\d+)?/, :lng => /\d+(\.\d+)?/
 

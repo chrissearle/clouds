@@ -2,17 +2,13 @@ readyCallback = ->
   $('.point .streetview').each( ->
     id = $(this).attr('id')
     point = $("##{id}")
-    image = point.data('image')
+    streetview = point.data('streetview')
 
     $.ajax({
-      crossDomain: true,
-      url: image,
-      type: 'HEAD'
-    }).done (res, status, xhr) ->
-      console.log(xhr.getAllResponseHeaders())
-      console.log xhr.getResponseHeader('Content-Length')
-
-    point.append $('<img/>').attr('src', point.data('image'))
+      url: streetview
+    }).done (data) ->
+      if data.available
+        point.append $('<img/>').attr('src', data.image)
   )
 
 $(document).ready(readyCallback)

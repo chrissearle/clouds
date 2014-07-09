@@ -79,4 +79,18 @@ class Point < ActiveRecord::Base
       data
     end
   end
+
+  def streetview_url(size)
+    params = "location=#{self.latitude},#{self.longitude}&size=#{size}&sensor=false"
+
+    unless ENV['GOOGLE_API_KEY'].blank?
+      params = params + "&key=#{ENV['GOOGLE_API_KEY']}"
+    end
+
+    "http://maps.googleapis.com/maps/api/streetview?#{params}"
+  end
+
+  def location
+    "#{self.latitude.round(5)}, #{self.longitude.round(5)}"
+  end
 end

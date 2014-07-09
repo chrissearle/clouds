@@ -2,7 +2,10 @@ class PointsController < ApplicationController
   before_filter :get_points, :except => [:show, :current, :create]
 
   def index
-  end
+    respond_to do |format|
+      format.html
+      format.json { render :json => @points }
+    end  end
 
   def new
     @point = Point.new
@@ -36,6 +39,22 @@ class PointsController < ApplicationController
     @point.latitude = params[:lat]
     @point.longitude = params[:lng]
     @point.privacy_flag = true
+  end
+
+  def streetview
+    point = Point.find(params[:id])
+
+    uri = URI.parse(point.streetview_url('300x100'))
+
+    http = Net::HTTP.start(uri.host)
+
+    resp = http.head("#{uri.path}?#{uri.query}")
+
+    size = resp['content-length']
+
+    http.finish
+
+    render json: { :available => (size.to_i != 2914), :image => uri.to_s }
   end
 
   private

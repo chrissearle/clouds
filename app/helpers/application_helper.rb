@@ -66,20 +66,6 @@ module ApplicationHelper
       css = 'streetview wide'
     end
 
-    image_tag(streetview_map_for_point(point, size))
-  end
-
-  def streetview_map_for_point(point, size)
-    params = "location=#{point.latitude},#{point.longitude}&size=#{size}&sensor=false"
-
-    unless ENV['GOOGLE_API_KEY'].blank?
-      params = params + "&key=#{ENV['GOOGLE_API_KEY']}"
-    end
-
-    "http://maps.googleapis.com/maps/api/streetview?#{params}".html_safe
-  end
-
-  def location_for_point(point)
-    "#{point.latitude.round(5)}, #{point.longitude.round(5)}".html_safe
+    image_tag(point.streetview_url(size))
   end
 end
