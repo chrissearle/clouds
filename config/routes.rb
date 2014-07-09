@@ -2,16 +2,6 @@ Rails.application.routes.draw do
   resources :users
   resources :welcome
 
-  resources :private_points do
-    collection do
-      get 'map'
-    end
-
-    member do
-      get 'clear_cache'
-    end
-  end
-
   resources :points do
     member do
       get 'streetview'

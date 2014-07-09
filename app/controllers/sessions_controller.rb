@@ -13,12 +13,12 @@ class SessionsController < ApplicationController
 
     session[:user_id] = authentication.user_id
 
-    redirect_to private_points_path
+    redirect_to root_url
   end
 
   def destroy
     session.delete :user_id
 
-    redirect_to root_path
+    redirect_to root_url
   end
 end

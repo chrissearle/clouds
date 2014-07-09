@@ -1,11 +1,8 @@
 class PointsController < ApplicationController
   before_filter :get_points, :except => [:show, :current, :create]
+  before_filter :get_point, :only => [:show, :streetview]
 
   def index
-#    respond_to do |format|
-#      format.html
-#      format.json { render :json => @points }
-#    end
   end
 
   def new
@@ -22,15 +19,6 @@ class PointsController < ApplicationController
   end
 
   def show
-    begin
-      @point = Point.find(params[:id])
-
-      unless @point.privacy_flag?
-        redirect_to :action => :index, notice: 'Not Found'
-      end
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :action => :index, notice: 'Not Found'
-    end
   end
 
   def current
@@ -43,9 +31,7 @@ class PointsController < ApplicationController
   end
 
   def streetview
-    point = Point.find(params[:id])
-
-    uri = URI.parse(point.streetview_url('300x100'))
+    uri = URI.parse(@point.streetview_url('300x100'))
 
     http = Net::HTTP.start(uri.host)
 
@@ -60,8 +46,25 @@ class PointsController < ApplicationController
 
   private
 
+  def get_point
+    if (current_user)
+      @point = current_user.points.find(params[:id])
+    else
+      @point = Point.find(params[:id])
+
+      unless @point.privacy_flag
+        raise ActiveRecord::RecordNotFound
+      end
+    end
+
+  end
+
   def get_points
-    @points = Point.published.ordered
+    if (current_user)
+      @points = current_user.points.ordered
+    else
+      @points = Point.published.ordered
+    end
   end
 
   def point_params
