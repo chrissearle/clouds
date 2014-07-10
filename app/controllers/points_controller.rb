@@ -1,6 +1,7 @@
 class PointsController < ApplicationController
   before_filter :get_points, :except => [:show, :current, :create]
   before_filter :get_point, :only => [:show, :streetview, :update, :destroy]
+  before_filter :check_auth, :only => [:new, :create, :update, :destroy]
 
   def index
   end
@@ -12,20 +13,23 @@ class PointsController < ApplicationController
   end
 
   def create
-    if current_user
-      point = Point.new(point_params)
-      point.user = current_user
+    point = Point.new(point_params)
+    point.user = current_user
 
-      point.save
-    end
+    point.save
 
     redirect_to root_url
   end
 
+  def coord
+    @point = Point.new
+    @point.latitude = params[:lat]
+    @point.longitude = params[:lng]
+    @point.name = 'Point'
+  end
+
   def update
-    if current_user
-      @point.update(point_params)
-    end
+    @point.update(point_params)
 
     redirect_to root_url
   end
@@ -87,6 +91,12 @@ class PointsController < ApplicationController
 
   def point_params
     params.require(:point).permit(:name, :latitude, :longitude, :privacy_flag)
+  end
+
+  def check_auth
+    unless current_user
+      redirect_to login_url
+    end
   end
 
 end

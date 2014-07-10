@@ -9,4 +9,4 @@
       .point
         = render 'form', :point => @point
 
-    #map.col-md-9{ :data => { :singlepointpath => point_url(@point, :format => :json) }}
+    #map.col-md-9{ :data => { :singlepointpath => coords_url(:lat => '59.91199', :lng => '10.75806', :format => :json) }}

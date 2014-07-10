@@ -34,7 +34,11 @@ class @Map
       latlng = new google.maps.LatLng data['location']['latitude'], data['location']['longitude']
       @.addPoint latlng, infoWindow, true, { name: data['name'], id: data['id'], link: point, privacy_flag: data['privacy_flag'] }
 
-      @.zoomToFit [latlng]
+      if data.zoom
+        @map.setCenter latlng
+        @map.setZoom data.zoom
+      else
+        @.zoomToFit [latlng]
 
 
   addPoint: (latlng, infoWindow, draggable, data) ->

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   get '/current/:lat/:lng' => 'points#current', :as => 'current', :lat => /\d+(\.\d+)?/, :lng => /\d+(\.\d+)?/
+  get '/coords/:lat/:lng' => 'points#coord', :as => 'coords', :lat => /\d+(\.\d+)?/, :lng => /\d+(\.\d+)?/
 
   get '/cache/all' => 'admin#cache_content'
 
