@@ -12,7 +12,7 @@ class @Map
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN],
         style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
       },
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.HYBRID
 
     @map = new google.maps.Map element, @options
 
@@ -24,7 +24,7 @@ class @Map
       for point in data
         latlng = new google.maps.LatLng point['latitude'], point['longitude']
         pointList.push latlng
-        @.addPoint(latlng, point['name'], point['id'], point['path'], infoWindow)
+        @.addPoint latlng, infoWindow, false, { name: point['name'], id: point['id'], link: point['path'], privacy_flag: point['privacy_flag'] }
       @.zoomToFit pointList
 
   populateSingle: (point) ->
@@ -32,19 +32,23 @@ class @Map
       infoWindow = new google.maps.InfoWindow()
 
       latlng = new google.maps.LatLng data['location']['latitude'], data['location']['longitude']
-      @.addPoint(latlng, data['name'], data['id'], point, infoWindow, true)
+      @.addPoint latlng, infoWindow, true, { name: data['name'], id: data['id'], link: point, privacy_flag: data['privacy_flag'] }
+
       @.zoomToFit [latlng]
 
 
-  addPoint: (latlng, name, point, link, infoWindow, draggable) ->
+  addPoint: (latlng, infoWindow, draggable, data) ->
     drag_flag = draggable || false
 
     options =
       position: latlng
       map: @map
-      title: name
+      title: data.name
 
     color = 'ff6666'
+
+    if data.privacy_flag == false
+      color = 'ffff66'
 
     if drag_flag
       options['draggable'] = true
@@ -54,11 +58,11 @@ class @Map
 
     marker = new StyledMarker options
 
-    $("#point_#{point}").data('marker', marker)
+    $("#point_#{data.id}").data('marker', marker)
 
-    if link != undefined && !drag_flag
+    if data.link != undefined && !drag_flag
       google.maps.event.addListener marker, 'click', =>
-        @.showInfoWindow(@map, marker, infoWindow, link)
+        @.showInfoWindow(@map, marker, infoWindow, data.link)
 
     if drag_flag
       google.maps.event.addListener marker, 'drag', =>
