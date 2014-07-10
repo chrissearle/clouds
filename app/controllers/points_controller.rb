@@ -44,6 +44,7 @@ class PointsController < ApplicationController
     @point.latitude = params[:lat]
     @point.longitude = params[:lng]
     @point.privacy_flag = true
+    @point.id = -1
   end
 
   def streetview

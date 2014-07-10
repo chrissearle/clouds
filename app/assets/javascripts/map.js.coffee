@@ -44,7 +44,12 @@ class @Map
       if (data.owned)
         options['owned'] = true
 
-      @.addPoint latlng, infoWindow, true, options
+      draggable = true
+
+      if (data.current)
+        draggable = false
+
+      @.addPoint latlng, infoWindow, draggable, options
 
       if data.zoom
         @map.setCenter latlng
@@ -119,12 +124,28 @@ class @Map
     @.zoomToFit [@point]
 
 
+class CurrentLocation
+  success: (pos) ->
+    document.location = $("#current a").data('current').replace("0/0", pos.coords.latitude + "/" + pos.coords.longitude)
+  error: (err) ->
+    console.log(err)
+
 readyCallback = ->
   map = new Map($('#map').get(0), 60, 10)
   if ($('#map').data('points'))
     map.populate($('#map').data('points'))
   if ($('#map').data('singlepointpath'))
     map.populateSingle($('#map').data('singlepointpath'))
+
+  if (navigator && navigator.geolocation)
+    currentLocation = new CurrentLocation()
+
+    $("#current a").click (e) ->
+      navigator.geolocation.getCurrentPosition(currentLocation.success, currentLocation.error)
+      e.preventDefault()
+  else
+    $("#current").hide()
+
 
 $(document).ready(readyCallback)
 $(document).on('page:load', readyCallback)

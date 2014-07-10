@@ -1,4 +1,4 @@
-%li= link_to 'TODO: Current Location', root_url
+%li#current= link_to 'Current Location', root_path, :data => { :current => current_url(:lat => 0, :lng => 0) }
 %li.divider-vertical
   - if current_user
     %li= link_to 'Add Point', new_point_url

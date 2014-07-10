@@ -1,0 +1,13 @@
+- content_for :head do
+  %script{ :type => 'text/javascript',
+           :src => js_map_url }
+  = javascript_include_tag 'StyledMarker'
+
+.container-fluid
+  .row
+    .col-md-3.scrollable
+      .point
+        %h4
+          = link_with_icon('map-marker', @point.name)
+        .streetview{ :data => { :streetview => streetview_point_url(@point, :format => :json) }}
+    #map.col-md-9{ :data => { :singlepointpath => current_url(:format => :json) }}
