@@ -1,5 +1,5 @@
 #LOGIN_PROVIDERS = [:flickr, :twitter, :facebook, :github].freeze
-LOGIN_PROVIDERS = [:flickr, :twitter].freeze
+LOGIN_PROVIDERS = [:flickr, :twitter, :github].freeze
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :flickr, ENV['FLICKR_API_KEY'], ENV['FLICKR_SECRET'], :scope => 'read'
