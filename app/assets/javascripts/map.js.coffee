@@ -49,7 +49,7 @@ class @Map
       if (data.current)
         draggable = false
 
-      @.addPoint latlng, infoWindow, draggable, options
+      marker = @.addPoint latlng, infoWindow, draggable, options
 
       if data.zoom
         @map.setCenter latlng
@@ -57,6 +57,8 @@ class @Map
       else
         @.zoomToFit [latlng]
 
+      if (data.current)
+        new google.maps.event.trigger( marker, 'click' )
 
   addPoint: (latlng, infoWindow, draggable, data) ->
     drag_flag = draggable || false
