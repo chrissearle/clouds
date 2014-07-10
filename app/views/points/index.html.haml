@@ -13,7 +13,7 @@
               = link_with_icon('map-marker', point.name)
             - else
               = link_with_icon('lock', point.name)
-            - if current_user && current_user = point.user
+            - if current_user && current_user == point.user
               %span.edit
                 = link_to 'Edit', point_path(point)
             %span.coords= point.location

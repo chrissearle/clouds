@@ -5,4 +5,7 @@ json.array! @points do |point|
   json.latitude point.latitude
   json.longitude point.longitude
   json.path point_url(point, :format => :json)
+  if current_user == point.user
+    json.owned true
+  end
 end

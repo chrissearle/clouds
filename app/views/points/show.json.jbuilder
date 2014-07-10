@@ -67,4 +67,8 @@ end
 
 json.bands bands
 
+if current_user == @point.user
+  json.owned true
+end
+
 json.privacy_flag @point.privacy_flag

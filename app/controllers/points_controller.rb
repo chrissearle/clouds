@@ -70,7 +70,7 @@ class PointsController < ApplicationController
 
   def get_point
     if (current_user)
-      @point = current_user.points.find(params[:id])
+      @point = Point.includes(:user).where('user_id = ? OR privacy_flag = true', current_user.id).find(params[:id])
     else
       @point = Point.find(params[:id])
 
@@ -83,7 +83,7 @@ class PointsController < ApplicationController
 
   def get_points
     if (current_user)
-      @points = current_user.points.ordered
+      @points = Point.includes(:user).where('user_id = ? OR privacy_flag = true', current_user.id).ordered
     else
       @points = Point.published.ordered
     end

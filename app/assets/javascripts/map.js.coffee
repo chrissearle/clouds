@@ -24,7 +24,13 @@ class @Map
       for point in data
         latlng = new google.maps.LatLng point['latitude'], point['longitude']
         pointList.push latlng
-        @.addPoint latlng, infoWindow, false, { name: point['name'], id: point['id'], link: point['path'], privacy_flag: point['privacy_flag'] }
+
+        options = { name: point['name'], id: point['id'], link: point['path'], privacy_flag: point['privacy_flag'] }
+
+        if (point.owned)
+          options['owned'] = true
+
+        @.addPoint latlng, infoWindow, false, options
       @.zoomToFit pointList
 
   populateSingle: (point) ->
@@ -32,7 +38,13 @@ class @Map
       infoWindow = new google.maps.InfoWindow()
 
       latlng = new google.maps.LatLng data['location']['latitude'], data['location']['longitude']
-      @.addPoint latlng, infoWindow, true, { name: data['name'], id: data['id'], link: point, privacy_flag: data['privacy_flag'] }
+
+      options = { name: data['name'], id: data['id'], link: point, privacy_flag: data['privacy_flag'] }
+
+      if (data.owned)
+        options['owned'] = true
+
+      @.addPoint latlng, infoWindow, true, options
 
       if data.zoom
         @map.setCenter latlng
@@ -49,7 +61,10 @@ class @Map
       map: @map
       title: data.name
 
-    color = 'ff6666'
+    color = '666666'
+
+    if (data.owned)
+      color = 'ff6666'
 
     if data.privacy_flag == false
       color = 'ffff66'
