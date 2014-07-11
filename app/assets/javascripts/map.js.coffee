@@ -1,5 +1,6 @@
 class @Map
   constructor: (element, lat, lng) ->
+    @element = element
     lat = 0 unless lat != undefined
     lng = 0 unless lng != undefined
     @point =  new google.maps.LatLng lat, lng
@@ -13,6 +14,11 @@ class @Map
         style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
       },
       mapTypeId: google.maps.MapTypeId.HYBRID
+
+    @.resizeMap()
+
+    $(window).resize =>
+      @.resizeMap()
 
     @map = new google.maps.Map element, @options
 
@@ -125,6 +131,10 @@ class @Map
   zoomToFitCenter: ->
     @.zoomToFit [@point]
 
+  resizeMap: ->
+    $(@element).height($( window ).height() - 50)
+
+
 
 class CurrentLocation
   success: (pos) ->
@@ -147,6 +157,7 @@ readyCallback = ->
       e.preventDefault()
   else
     $("#current").hide()
+
 
 
 $(document).ready(readyCallback)

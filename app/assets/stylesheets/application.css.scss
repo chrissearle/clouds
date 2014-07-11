@@ -4,3 +4,12 @@
 @import "map";
 @import "points";
 @import "providers";
+
+body {
+  overflow: hidden;
+}
+
+main {
+  padding-left: 0;
+  padding-right: 0;
+}

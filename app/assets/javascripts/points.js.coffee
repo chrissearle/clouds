@@ -13,5 +13,13 @@ readyCallback = ->
       new google.maps.event.trigger( $(this).data('marker'), 'click' )
   )
 
+  resizePoints()
+
+  $(window).resize ->
+    resizePoints()
+
+resizePoints = ->
+  $('.scrollable').height($( window ).height() - 70)
+
 $(document).ready(readyCallback)
 $(document).on('page:load', readyCallback)
