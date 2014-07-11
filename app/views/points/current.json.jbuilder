@@ -32,19 +32,21 @@ data = {
     :total => [],
     :low => [],
     :medium => [],
-    :high => []
+    :high => [],
+    :fog => []
 }
 
-@point.cloud_cover.each do |datum|
+@point.forecast.each do |datum|
   date = date_for_chart(datum['from'])
 
   data[:total] << [date, datum['cloudiness'].to_f]
   data[:low] << [date, datum['lowClouds'].to_f]
   data[:medium] << [date, datum['mediumClouds'].to_f]
   data[:high] << [date, datum['highClouds'].to_f]
+  data[:fog] << [date, datum['fog'].to_f]
 end
 
-json.clouds data
+json.forecast data
 
 rises = @point.sunrise.map { |s| date_for_chart(s['sun_rise']) }
 sets  = @point.sunrise.map { |s| date_for_chart(s['sun_set']) }

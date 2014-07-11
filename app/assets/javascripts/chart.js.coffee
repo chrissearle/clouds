@@ -60,18 +60,22 @@ class @Chart
 
     @.generateChart @data['name'], [
         name: 'Cloudiness'
-        data: @data['clouds']['total']
+        data: @data['forecast']['total']
       ,
         name: 'Low',
-        data: @data['clouds']['low'],
+        data: @data['forecast']['low'],
         visible: false
       ,
         name: 'Medium',
-        data: @data['clouds']['medium'],
+        data: @data['forecast']['medium'],
         visible: false
       ,
         name: 'High',
-        data: @data['clouds']['high'],
+        data: @data['forecast']['high'],
+        visible: false
+      ,
+        name: 'Fog',
+        data: @data['forecast']['fog'],
         visible: false
       ],
       @data['bands']

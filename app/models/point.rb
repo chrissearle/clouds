@@ -7,28 +7,28 @@ class Point < ActiveRecord::Base
   scope :ordered, -> { order(:name) }
   scope :published, -> { where(:privacy_flag => true) }
 
-  def self.cover_cache_key(point)
-    "Cover:#{point.latitude}:#{point.longitude}"
+  def self.forecast_cache_key(point)
+    "Forecast:#{point.latitude}:#{point.longitude}"
   end
 
   def self.sunrise_cache_key(point)
     "Sunrise:#{point.latitude}:#{point.longitude}"
   end
 
-  def cloud_cover
-    cache_key = Point.cover_cache_key(self)
+  def forecast
+    cache_key = Point.forecast_cache_key(self)
 
-    cover = Rails.cache.read(cache_key)
+    forecast = Rails.cache.read(cache_key)
 
-    if cover.nil?
+    if forecast.nil?
       Rails.logger.debug "No cache hit for #{cache_key} - retriving"
 
       refresh
 
-      cover = Rails.cache.read(cache_key)
+      forecast = Rails.cache.read(cache_key)
     end
 
-    cover
+    forecast
   end
 
   def sunrise
@@ -48,15 +48,15 @@ class Point < ActiveRecord::Base
   end
 
   def refresh
-    forecast_cache_key = Point.cover_cache_key(self)
+    forecast_cache_key = Point.forecast_cache_key(self)
 
     forecast = LocationForecast.new(self.latitude, self.longitude)
 
-    cover = forecast.cloud_cover
+    forecast = forecast.forecast_data
 
-    Rails.cache.write(forecast_cache_key, cover)
+    Rails.cache.write(forecast_cache_key, forecast)
 
-    from = Date.parse(cover.first['from'])
+    from = Date.parse(forecast.first['from'])
 
     to = from + 2
 
@@ -73,7 +73,7 @@ class Point < ActiveRecord::Base
     Point.all.map do |point|
       data = Hash.new
       data[:point] = point
-      data[:cover] = Rails.cache.read(Point.cover_cache_key(point))
+      data[:cover] = Rails.cache.read(Point.forecast_cache_key(point))
       data[:sunrise] = Rails.cache.read(Point.sunrise_cache_key(point))
 
       data
