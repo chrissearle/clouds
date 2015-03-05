@@ -3,7 +3,7 @@ require 'open-uri'
 
 class LocationForecast
   def initialize(lat, lng)
-    @doc = Nokogiri::XML(open("http://api.met.no/weatherapi/locationforecast/1.8/?lat=#{lat};lon=#{lng}"))
+    @doc = Nokogiri::XML(open("http://api.met.no/weatherapi/locationforecast/1.9/?lat=#{lat};lon=#{lng}"))
   end
 
   def forecast_data
